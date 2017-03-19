@@ -1,6 +1,12 @@
-cmake_minimum_required (VERSION 2.8.8)
+cmake_minimum_required(VERSION 3.0)
 
-project (Api-V12)
+project (ScreepsApi)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -ggdb")
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # JSON
 include_directories(../external/json/src)
