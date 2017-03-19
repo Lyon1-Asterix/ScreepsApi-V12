@@ -28,6 +28,7 @@ set(PROJECT_SRCS
     ${PROJECT_SOURCE_DIR}/Routers/Register.cpp
     ${PROJECT_SOURCE_DIR}/Routers/Socket.cpp
     ${PROJECT_SOURCE_DIR}/Routers/User.cpp
+    ${PROJECT_SOURCE_DIR}/Data.cpp
     ${PROJECT_SOURCE_DIR}/Api.cpp
     ${PROJECT_SOURCE_DIR}/V12.cpp
 )
