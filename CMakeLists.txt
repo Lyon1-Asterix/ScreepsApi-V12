@@ -12,9 +12,39 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(DISABLE_ScreepsApi "bla bla bla... ScreepsApi" OFF)
 option(DISABLE_json "bla bla bla ... nlhomann/json" OFF)
 
-add_subdirectory ( external )
-include_directories(${Json_INCLUDE_DIRS})
-include_directories(${ScreepsApi_INCLUDE_DIRS})
+include(ExternalProject)
+
+macro ( FindOrCloneExternal name repository args varprefix )
+    find_package ( ${name} QUIET
+        NO_DEFAULT_PATH
+        NO_CMAKE_ENVIRONMENT_PATH
+        NO_CMAKE_PATH
+        NO_SYSTEM_ENVIRONMENT_PATH
+        NO_CMAKE_PACKAGE_REGISTRY
+        NO_CMAKE_BUILDS_PATH
+        NO_CMAKE_SYSTEM_PATH
+        NO_CMAKE_SYSTEM_PACKAGE_REGISTRY
+    )
+    message ( STATUS "args = ${args}")
+    if (NOT ${name}_FOUND)
+        ExternalProject_Add(${name}
+            GIT_REPOSITORY ${repository}
+            GIT_TAG "master"
+            SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/${name}"
+            UPDATE_COMMAND ""
+            CMAKE_ARGS ${args}  -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}
+        )
+        set(${varprefix}_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include")
+        set(${varprefix}_LIBRARY_DIR "${CMAKE_BINARY_DIR}/lib")
+        set(${varprefix}_LIBRARIES "${CMAKE_SHARED_LIBRARY_PREFIX}${varprefix}${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    endif ()
+    message ( STATUS "${varprefix} ${${varprefix}_INCLUDE_DIR}")
+endmacro ()
+
+FindOrCloneExternal ( nlohmann_json https://github.com/Lyon1-Asterix/json "-DBuildTests=OFF" JSON )
+FindOrCloneExternal ( ScreepsApi https://github.com/Lyon1-Asterix/ScreepsApi.git "-Dnlohmann_json_DIR=${CMAKE_BINARY_DIR}/cmake" ScreepsApi )
+include_directories(${JSON_INCLUDE_DIR})
+include_directories(${ScreepsApi_INCLUDE_DIR})
 
 link_directories ( ${CMAKE_BINARY_DIR}/lib )
 link_directories ( ${ScreepsApi_LIBRARY_DIR} )
@@ -38,10 +68,10 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 
 add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS})
 target_link_libraries ( ${PROJECT_NAME} ${ScreepsApi_LIBRARIES} )
-if(NOT DISABLE_json)
-add_dependencies(${PROJECT_NAME} nlohmannjson)
+if(TARGET nlohmann_json)
+add_dependencies(${PROJECT_NAME} nlohmann_json)
 endif ()
-if(NOT DISABLE_ScreepsApi)
+if(TARGET ScreepsApi)
 add_dependencies(${PROJECT_NAME} ScreepsApi)
 endif ()
 
