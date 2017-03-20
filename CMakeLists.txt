@@ -11,10 +11,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # JSON
 include_directories(external/json/src)
 
+if (NOT DEFINED ${HasScreepsApi})
 add_subdirectory ( external/ScreepsApi )
-
-# ScreepsApi
 include_directories(external/ScreepsApi/include)
+endif ( NOT DEFINED ${HasScreepsApi})
 
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)

@@ -64,13 +64,20 @@ bool Api::PullCode ( std::string branch )
 
 bool Api::PushCode ( std::string branch )
 {
-    /*
     nlohmann::json content, reply;
-    Data::Get().m_code.ToJSON ( content );
+    Data::Get().m_code.m_branches[branch].ToJSON ( content );
     reply = to_json ( m_client["api"]["user"].route ( "code", content.dump (), ScreepsApi::Web::RoutingMethod::HttpPost ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
-    if ( reply["ok"].get<int>() != 1) return false;*/
+    if ( reply["ok"].get<int>() != 1) return false;
     return true;
+}
+
+bool Api::AddModule ( std::string branch, std::string moduleName, std::string moduleCode )
+{
+    CodeModule c;
+    c.m_name = moduleName;
+    c.m_content = moduleCode;
+    Data::Get().m_code.m_branches[branch].m_modules[moduleName] = c;
 }
 
 bool Api::Console ( std::string command )

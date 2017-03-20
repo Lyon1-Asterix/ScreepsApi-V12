@@ -17,6 +17,8 @@ public:
     virtual bool PushCode ( std::string branch );
     virtual bool Console ( std::string command );
     virtual bool Room ( std::string name );
+    //
+    virtual bool AddModule ( std::string branch, std::string moduleName, std::string moduleCode );
 protected:
     Client m_client;
     bool m_initialized;
