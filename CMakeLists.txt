@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.0)
-include(ConfigExternal)
 
 project (ScreepsApiV12)
 
@@ -46,3 +45,9 @@ endif ()
 if(NOT DISABLE_ScreepsApi)
 add_dependencies(${PROJECT_NAME} ScreepsApi)
 endif ()
+
+INSTALL(TARGETS ${PROJECT_NAME}
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
