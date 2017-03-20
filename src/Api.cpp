@@ -15,8 +15,8 @@ Api::Api(std::shared_ptr<ScreepsApi::Web::Client> pClient) :
     m_client ( this ),
     m_initialized ( false )
 {
-    ScreepsApi::Data::Get().m_connected = false;
-    ScreepsApi::Data::Get().m_workingDirectory = ".";
+    Data::Get().m_connected = false;
+    Data::Get().m_workingDirectory = ".";
 }
 
 /*
@@ -44,8 +44,8 @@ bool Api::Signin ( std::string email, std::string password )
     auto branches = reply = to_json ( m_client["api"]["user"].route ( "branches","{\"withCode\":false}" ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1) return false;
-    ScreepsApi::Data::Get().setUser ( user );
-    ScreepsApi::Data::Get().m_connected = true;
+    Data::Get().setUser ( user );
+    Data::Get().m_connected = true;
     m_initialized = true;
     return true;
 }
@@ -57,18 +57,19 @@ bool Api::PullCode ( std::string branch )
     reply = to_json ( m_client["api"]["user"].route ( "code", content.dump (), ScreepsApi::Web::RoutingMethod::HttpGet ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1) return false;
-    ScreepsApi::Data::Get().m_codeData = reply;
-    ScreepsApi::Data::Get().m_code.FromJSON ( reply );
+    CodeBranch c; c.FromJSON ( reply );
+    Data::Get().m_code.m_branches[c.m_branch] = c;
     return true;
 }
 
 bool Api::PushCode ( std::string branch )
 {
+    /*
     nlohmann::json content, reply;
-    ScreepsApi::Data::Get().m_code.ToJSON ( content );
+    Data::Get().m_code.ToJSON ( content );
     reply = to_json ( m_client["api"]["user"].route ( "code", content.dump (), ScreepsApi::Web::RoutingMethod::HttpPost ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
-    if ( reply["ok"].get<int>() != 1) return false;
+    if ( reply["ok"].get<int>() != 1) return false;*/
     return true;
 }
 
@@ -88,7 +89,7 @@ bool Api::Room ( std::string name )
     nlohmann::json reply = to_json ( m_client["api"]["game"].route ( "room-terrain", args.dump () ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1 ) return false;
-    ScreepsApi::Data::Get ().setRoom ( reply["terrain"][0] );
+    Data::Get ().setRoom ( reply["terrain"][0] );
     return true;
 }
 

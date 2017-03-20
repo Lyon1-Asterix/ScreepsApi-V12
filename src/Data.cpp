@@ -23,24 +23,22 @@ CodeModule::CodeModule ( std::string name, std::string code )
     m_initialized = true;
 }
 
-Code::Code ()
+CodeBranch::CodeBranch ()
 {
     m_initialized = false;
 }
-void Code::FromJSON ( nlohmann::json data )
+void CodeBranch::FromJSON ( nlohmann::json data )
 {
     m_branch = data["branch"].get<std::string> ();
-    /*
     for (nlohmann::json::iterator it = data [ "modules" ].begin(); it != data [ "modules" ].end(); ++it) {
         std::string name = it.key();
         std::string code = it.value();
         ReplaceStringInPlace ( code, "\\n", "\n" );
         m_modules [ name ] = CodeModule ( name, code );
     }
-    */
     m_initialized = true;
 }
-void Code::ToJSON ( nlohmann::json& data )
+void CodeBranch::ToJSON ( nlohmann::json& data )
 {
     data["branch"] = m_branch;
     for (auto it : m_modules ) {
@@ -49,7 +47,9 @@ void Code::ToJSON ( nlohmann::json& data )
         data [ "modules" ] [ name ] = code;
     }
 }
-void Code::Save ( std::string directory )
+
+/*
+void CodeBranch::Save ( std::string directory )
 {
     std::string dir = directory + "/" + m_branch;
     for ( auto it : m_modules )
@@ -60,7 +60,8 @@ void Code::Save ( std::string directory )
         std::clog << it.first << " saved in " << fname << std::endl;
     }
 }
-void Code::Load ( std::string directory )
+
+void CodeBranch::Load ( std::string directory )
 {
     std::string dir = directory + "/" + m_branch;
     for ( auto it : m_modules )
@@ -72,6 +73,18 @@ void Code::Load ( std::string directory )
         std::string code = buffer.str ();
         m_modules[ it.first ].m_content = code;
     }
+}
+*/
+Code::Code ()
+{
+    m_initialized = false;
+}
+void Code::FromJSON ( nlohmann::json data )
+{
+    m_initialized = true;
+}
+void Code::ToJSON ( nlohmann::json& data )
+{
 }
 
 Badge::Badge ()

@@ -113,7 +113,6 @@ protected:
     bool m_roomModified;
 public:
     /* CODE */
-    nlohmann::json m_codeData;
     Code m_code;
     bool m_codeModified;
     /**/
