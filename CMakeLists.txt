@@ -17,6 +17,7 @@ include_directories(${Json_INCLUDE_DIRS})
 include_directories(${ScreepsApi_INCLUDE_DIRS})
 
 link_directories ( ${CMAKE_BINARY_DIR}/lib )
+link_directories ( ${ScreepsApi_LIBRARY_DIR} )
 
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
