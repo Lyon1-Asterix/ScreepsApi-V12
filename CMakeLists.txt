@@ -22,18 +22,16 @@ link_directories ( ${ScreepsApi_LIBRARY_DIR} )
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
  
-set(PROJECT_SRCS 
-    #
-    ${PROJECT_SOURCE_DIR}/Routers/Api.cpp
-    ${PROJECT_SOURCE_DIR}/Routers/Auth.cpp
-    ${PROJECT_SOURCE_DIR}/Routers/Client.cpp
-    ${PROJECT_SOURCE_DIR}/Routers/Game.cpp
-    ${PROJECT_SOURCE_DIR}/Routers/Register.cpp
-    ${PROJECT_SOURCE_DIR}/Routers/Socket.cpp
-    ${PROJECT_SOURCE_DIR}/Routers/User.cpp
-    ${PROJECT_SOURCE_DIR}/Data.cpp
-    ${PROJECT_SOURCE_DIR}/Api.cpp
-    ${PROJECT_SOURCE_DIR}/V12.cpp
+file(
+        GLOB_RECURSE
+        PROJECT_SRCS
+        ${PROJECT_SOURCE_DIR}/*
+)
+
+file(
+        GLOB_RECURSE
+        PROJECT_PUBLIC_HEADERS
+        ${PROJECT_INCLUDE_DIR}/*
 )
 
 include_directories("${PROJECT_INCLUDE_DIR}")
@@ -47,8 +45,12 @@ if(NOT DISABLE_ScreepsApi)
 add_dependencies(${PROJECT_NAME} ScreepsApi)
 endif ()
 
-INSTALL(TARGETS ${PROJECT_NAME}
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-)
+#INSTALL(TARGETS ${PROJECT_NAME}
+#  RUNTIME DESTINATION bin
+#  LIBRARY DESTINATION lib
+#  ARCHIVE DESTINATION lib
+#)
+
+install(FILES ${PROJECT_PUBLIC_HEADERS} DESTINATION include/${PROJECT_NAME})
+install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+install(FILES cmake/${PROJECT_NAME}-Config.cmake DESTINATION cmake)
