@@ -22,7 +22,7 @@ find_package ( ScreepsApi REQUIRED
         NO_CMAKE_PACKAGE_REGISTRY
         NO_CMAKE_SYSTEM_PACKAGE_REGISTRY
 )
-include_directories(${ScreepsApi_INCLUDE_DIR})
+include_directories(${ScreepsApi_INCLUDE_DIRS})
 
 link_directories ( ${CMAKE_BINARY_DIR}/lib )
 link_directories ( ${ScreepsApi_LIBRARY_DIRS} )
@@ -48,15 +48,6 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 
 add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS})
 target_link_libraries ( ${PROJECT_NAME} ${ScreepsApi_LIBRARIES} )
-if(TARGET nlohmann_json)
-add_dependencies(${PROJECT_NAME} nlohmann_json)
-endif ()
-if(TARGET ScreepsApi)
-add_dependencies(${PROJECT_NAME} ScreepsApi)
-if(TARGET nlohmann_json)
-add_dependencies(ScreepsApi nlohmann_json)
-endif ()
-endif ()
 
 #INSTALL(TARGETS ${PROJECT_NAME}
 #  RUNTIME DESTINATION bin
