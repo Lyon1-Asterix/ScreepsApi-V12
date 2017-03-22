@@ -28,7 +28,8 @@ bool Api::Signin ( std::string email, std::string password )
     nlohmann::json content, reply;
     content["email"] = email;
     content["password"] = password;
-    auto auth = reply = to_json ( m_client["api"]["auth"].route ( "signin", content.dump () ) );
+    auto tmp = m_client["api"]["auth"].route ( "signin", content.dump () );
+    auto auth = reply = to_json ( tmp );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1) return false;
     setToken (reply["token"].get<std::string>());
