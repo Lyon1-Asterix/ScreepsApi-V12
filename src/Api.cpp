@@ -74,14 +74,6 @@ bool Api::PushCode ( std::string branch )
     return true;
 }
 
-bool Api::AddModule ( std::string branch, std::string moduleName, std::string moduleCode )
-{
-    CodeModule c;
-    c.m_name = moduleName;
-    c.m_content = moduleCode;
-    Data::Get().m_code.m_branches[branch].m_modules[moduleName] = c;
-}
-
 bool Api::Console ( std::string command )
 {
     nlohmann::json args;
@@ -99,6 +91,18 @@ bool Api::Room ( std::string name )
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1 ) return false;
     Data::Get ().setRoom ( reply["terrain"][0] );
+    return true;
+}
+
+bool Api::AddSpawn ( std::string name, std::string x, std::string y )
+{
+    nlohmann::json args;
+    args["room"] = name;
+    args["x"] = x;
+    args["y"] = y;
+    nlohmann::json reply = to_json ( m_client["api"]["game"].route ( "place-spawn", args.dump () ) );
+    if ( reply.find ( "ok" ) == reply.end () ) return false;
+    if ( reply["ok"].get<int>() != 1 ) return false;
     return true;
 }
 

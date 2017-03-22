@@ -18,7 +18,7 @@ public:
     virtual bool Console ( std::string command );
     virtual bool Room ( std::string name );
     //
-    virtual bool AddModule ( std::string branch, std::string moduleName, std::string moduleCode );
+    virtual bool AddSpawn ( std::string name, std::string x, std::string y );
 protected:
     Client m_client;
     bool m_initialized;
