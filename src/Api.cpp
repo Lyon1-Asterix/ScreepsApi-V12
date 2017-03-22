@@ -35,6 +35,7 @@ bool Api::Signin ( std::string email, std::string password )
     auto user = reply = to_json ( m_client["api"]["auth"].route ( "me" ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1) return false;
+    /*
     auto room = reply = to_json ( m_client["api"]["user"].route ( "world-start-room" ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1) return false;
@@ -44,6 +45,7 @@ bool Api::Signin ( std::string email, std::string password )
     auto branches = reply = to_json ( m_client["api"]["user"].route ( "branches","{\"withCode\":false}" ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1) return false;
+    */
     Data::Get().setUser ( user );
     Data::Get().m_connected = true;
     m_initialized = true;
