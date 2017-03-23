@@ -15,7 +15,7 @@ public:
     /*
     */
     virtual bool Signin ( std::string email, std::string password );
-    virtual bool PushCode ( std::string branch );
+    virtual bool PushCode ( std::string branch, std::map < std::string, std::string > modules );
     virtual bool Console ( std::string command );
     virtual bool AddSpawn ( std::string name, std::string x, std::string y );
     //

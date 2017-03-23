@@ -9,9 +9,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option(DISABLE_ScreepsApi "bla bla bla... ScreepsApi" OFF)
-option(DISABLE_json "bla bla bla ... nlhomann/json" OFF)
-
 find_package ( nlohmann_json REQUIRED
         NO_CMAKE_PACKAGE_REGISTRY
         NO_CMAKE_SYSTEM_PACKAGE_REGISTRY
@@ -24,10 +21,7 @@ find_package ( ScreepsApi REQUIRED
 )
 include_directories(${ScreepsApi_INCLUDE_DIRS})
 
-link_directories ( ${CMAKE_BINARY_DIR}/lib )
 link_directories ( ${ScreepsApi_LIBRARY_DIRS} )
-
-message ( STATUS "${ScreepsApi_LIBRARY_DIRS}")
 
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -48,12 +42,6 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 
 add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS})
 target_link_libraries ( ${PROJECT_NAME} ${ScreepsApi_LIBRARIES} )
-
-#INSTALL(TARGETS ${PROJECT_NAME}
-#  RUNTIME DESTINATION bin
-#  LIBRARY DESTINATION lib
-#  ARCHIVE DESTINATION lib
-#)
 
 install(FILES ${PROJECT_PUBLIC_HEADERS} DESTINATION include/${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
