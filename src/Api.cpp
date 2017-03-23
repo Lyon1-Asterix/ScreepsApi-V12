@@ -36,6 +36,10 @@ Api::Api(std::shared_ptr<ScreepsApi::Web::Client> pClient,
 {
 }
 
+bool Api::initialized ()
+{
+    return m_initialized;
+}
 /*
 */
 

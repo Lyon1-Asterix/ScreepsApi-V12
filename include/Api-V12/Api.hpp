@@ -12,6 +12,7 @@ class Api : public ScreepsApi::Api
 {
 public:
     Api(std::shared_ptr<ScreepsApi::Web::Client> pClient,std::shared_ptr<ScreepsApi::Web::Socket> pSocket);
+    virtual bool initialized ();
     /*
     */
     virtual bool Signin ( std::string email, std::string password );
