@@ -45,19 +45,15 @@ bool Api::initialized ()
 
 void Api::socketAuthCB ( std::string m )
 {
-    std::cout << "Socket auth done" << std::endl;
     m_pSocket->unsubscribe ( "auth" );
-
     std::vector<std::string> args(split(m));
     if ( args[0] == "auth" ) {
         if ( args[1] == "ok" )
         {
             setToken ( args[2] );
             m_initialized = true;
-            std::cout << "Socket auth ok" << std::endl;
         }
     }
-
 }
 
 bool Api::Signin ( std::string email, std::string password )
@@ -71,7 +67,6 @@ bool Api::Signin ( std::string email, std::string password )
     if ( reply["ok"].get<int>() != 1) return false;
     /**/
     if ( m_pSocket ) {
-        std::cout << "send socket auth message" << std::endl;
         m_pSocket->subscribe ( "auth", std::bind ( &Api::socketAuthCB, this, std::placeholders::_1 ) );
         m_pSocket->send ( "auth " + reply["token"].get<std::string>() );
     }
