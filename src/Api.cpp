@@ -147,12 +147,14 @@ nlohmann::json Api::PullCode ( std::string branch )
 void Api::ConsoleListener (std::string userId, std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;
+    m_pSocket->subscribe ( "user:"+userId+"/console", callback );
     m_pSocket->send ( "subscribe user:"+userId+"/console" );
 }
 
 void Api::RoomListener (std::string room, std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;
+    m_pSocket->subscribe ( "room:"+room, callback );
     m_pSocket->send ( "subscribe room:"+room );
 }
 
