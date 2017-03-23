@@ -43,6 +43,11 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS})
 target_link_libraries ( ${PROJECT_NAME} ${ScreepsApi_LIBRARIES} )
 
+add_custom_command(TARGET ${PROJECT_NAME} 
+    POST_BUILD COMMAND 
+    ${CMAKE_INSTALL_NAME_TOOL} -add_rpath "@${ScreepsApi_LIBRARY_DIRS}"
+    $<TARGET_FILE:${PROJECT_NAME}>)
+
 install(FILES ${PROJECT_PUBLIC_HEADERS} DESTINATION include/${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES cmake/${PROJECT_NAME}Config.cmake DESTINATION cmake)
