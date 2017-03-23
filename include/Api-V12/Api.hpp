@@ -30,6 +30,7 @@ public:
 protected:
     Client m_client;
     bool m_initialized;
+    void socketAuthCB ( std::string m );
 };
 
 }
