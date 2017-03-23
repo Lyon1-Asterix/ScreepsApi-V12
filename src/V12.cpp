@@ -9,9 +9,9 @@
 
 namespace V12 {
 
-std::shared_ptr < ScreepsApi::Api > createApiV12 ( std::shared_ptr < ScreepsApi::Web::Client > web )
+std::shared_ptr < ScreepsApi::Api > createApiV12 ( std::shared_ptr < ScreepsApi::Web::Client > web,std::shared_ptr<ScreepsApi::Web::Socket> soc )
 {
-    std::shared_ptr < ScreepsApi::Api > out ( new V12::Api ( web ) );
+    std::shared_ptr < ScreepsApi::Api > out ( new V12::Api ( web,soc ) );
     return out;
 }
 
