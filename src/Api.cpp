@@ -8,7 +8,8 @@ nlohmann::json to_json (ScreepsApi::Reply reply) {
     return reply.data._json;
 }
 
-Api::Api(std::shared_ptr<ScreepsApi::Web::Client> pClient,std::shared_ptr<ScreepsApi::Web::Socket> pSocket) :
+Api::Api(std::shared_ptr<ScreepsApi::Web::Client> pClient,
+        std::shared_ptr<ScreepsApi::Web::Socket> pSocket) :
     ScreepsApi::Api ( pClient,pSocket ),
     m_client ( this ),
     m_initialized ( false )
@@ -24,8 +25,7 @@ bool Api::Signin ( std::string email, std::string password )
     nlohmann::json content, reply;
     content["email"] = email;
     content["password"] = password;
-    auto tmp = m_client["api"]["auth"].route ( "signin", content.dump () );
-    auto auth = reply = to_json ( tmp );
+    reply = to_json ( m_client["api"]["auth"].route ( "signin", content.dump () ) );
     if ( reply.find ( "ok" ) == reply.end () ) return false;
     if ( reply["ok"].get<int>() != 1) return false;
     setToken (reply["token"].get<std::string>());
