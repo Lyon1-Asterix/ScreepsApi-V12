@@ -144,23 +144,24 @@ nlohmann::json Api::PullCode ( std::string branch )
     return reply;
 }
 
-void Api::ConsoleListener (std::function<void(nlohmann::json)> callback)
+void Api::ConsoleListener (std::string userId, std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;
+    m_pSocket->send ( "subscribe user:"+userId+"/console" );
 }
 
-void Api::RoomListener (std::string room, std::function<void(nlohmann::json)> callback)
+void Api::RoomListener (std::string room, std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;
     m_pSocket->send ( "subscribe room:"+room );
 }
 
-void Api::WorldListener (std::function<void(nlohmann::json)> callback)
+void Api::WorldListener (std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;
 }
 
-void Api::UserListener (std::function<void(nlohmann::json)> callback)
+void Api::UserListener (std::string userId, std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;
 }

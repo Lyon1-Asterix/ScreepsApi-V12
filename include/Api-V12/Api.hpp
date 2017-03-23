@@ -24,10 +24,10 @@ public:
     virtual nlohmann::json Room ( std::string name );
     virtual nlohmann::json PullCode ( std::string branch );
     //
-    virtual void ConsoleListener (std::function<void(nlohmann::json)> callback);
-    virtual void RoomListener (std::string room, std::function<void(nlohmann::json)> callback);
-    virtual void WorldListener (std::function<void(nlohmann::json)> callback);
-    virtual void UserListener (std::function<void(nlohmann::json)> callback);
+    virtual void ConsoleListener (std::string userId, std::function<void(std::string)> callback);
+    virtual void RoomListener (std::string room, std::function<void(std::string)> callback);
+    virtual void WorldListener (std::function<void(std::string)> callback);
+    virtual void UserListener (std::string userId, std::function<void(std::string)> callback);
 protected:
     Client m_client;
     bool m_initialized;
