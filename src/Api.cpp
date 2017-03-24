@@ -151,6 +151,13 @@ void Api::ConsoleListener (std::string userId, std::function<void(std::string)> 
     m_pSocket->send ( "subscribe user:"+userId+"/console" );
 }
 
+void Api::ConsoleListener (std::string userId)
+{
+    if ( ! m_pSocket ) return;
+    m_pSocket->send ( "unsubscribe user:"+userId+"/console" );
+    m_pSocket->unsubscribe ( "user:"+userId+"/console" );
+}
+
 void Api::RoomListener (std::string room, std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;

@@ -25,6 +25,7 @@ public:
     virtual nlohmann::json PullCode ( std::string branch );
     //
     virtual void ConsoleListener (std::string userId, std::function<void(std::string)> callback);
+    virtual void ConsoleListener (std::string userId);
     virtual void RoomListener (std::string room, std::function<void(std::string)> callback);
     virtual void RoomListener (std::string room);
     virtual void WorldListener (std::function<void(std::string)> callback);
