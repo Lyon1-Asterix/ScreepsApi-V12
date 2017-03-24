@@ -116,8 +116,8 @@ bool Api::AddSpawn ( std::string name, std::string x, std::string y )
 
 nlohmann::json Api::User ()
 {
-    nlohmann::json out = {};
-    nlohmann::json reply = to_json ( m_client["api"]["auth"].route ( "me" ) );
+    nlohmann::json args, out = {};
+    nlohmann::json reply = to_json ( m_client["api"]["auth"].route ( "me", args ) );
     if ( reply.find ( "ok" ) == reply.end () ) return out;
     if ( reply["ok"].get<int>() != 1 ) return out;
     return reply;
@@ -128,7 +128,7 @@ nlohmann::json Api::Room ( std::string name )
     nlohmann::json args, out = {};
     args["room"] = name;
     args["encoded"] = false;
-    nlohmann::json reply = to_json ( m_client["api"]["game"].route ( "room-terrain", args.dump () ) );
+    nlohmann::json reply = to_json ( m_client["api"]["game"].route ( "room-terrain", {}, args ) );
     if ( reply.find ( "ok" ) == reply.end () ) return out;
     if ( reply["ok"].get<int>() != 1 ) return out;
     return reply["terrain"][0];
@@ -154,8 +154,17 @@ void Api::ConsoleListener (std::string userId, std::function<void(std::string)> 
 void Api::RoomListener (std::string room, std::function<void(std::string)> callback)
 {
     if ( ! m_pSocket ) return;
+    std::cout << __FUNCTION__ << " :: " << room << std::endl;
     m_pSocket->subscribe ( "room:"+room, callback );
     m_pSocket->send ( "subscribe room:"+room );
+}
+
+void Api::RoomListener (std::string room)
+{
+    if ( ! m_pSocket ) return;
+    std::cout << __FUNCTION__ << " :: " << room << std::endl;
+    m_pSocket->send ( "unsubscribe room:"+room );
+    m_pSocket->unsubscribe ( "room:"+room);
 }
 
 void Api::WorldListener (std::function<void(std::string)> callback)

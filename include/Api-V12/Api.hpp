@@ -26,6 +26,7 @@ public:
     //
     virtual void ConsoleListener (std::string userId, std::function<void(std::string)> callback);
     virtual void RoomListener (std::string room, std::function<void(std::string)> callback);
+    virtual void RoomListener (std::string room);
     virtual void WorldListener (std::function<void(std::string)> callback);
     virtual void UserListener (std::string userId, std::function<void(std::string)> callback);
 protected:
